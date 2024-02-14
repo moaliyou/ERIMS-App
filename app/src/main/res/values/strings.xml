@@ -3,4 +3,5 @@
     <string name="date_picker_dialog_OK">OK</string>
     <string name="date_picker_dialog_DISMISS">Dismiss</string>
     <string name="date_format">MMMM d, yyyy</string>
+    <string name="employee_card_label">No. of employees</string>
 </resources>
