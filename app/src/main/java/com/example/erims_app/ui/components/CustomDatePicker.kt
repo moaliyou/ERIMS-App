@@ -37,7 +37,11 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomDatePicker(datePickerState: DatePickerState) {
+fun CustomDatePicker(
+    datePickerState: DatePickerState,
+    dateFormat: String,
+    dateLabel: String
+) {
     Box(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surfaceVariant)
@@ -61,11 +65,11 @@ fun CustomDatePicker(datePickerState: DatePickerState) {
                 modifier = Modifier.weight(1f),
                 text = if (datePickerState.selectedDateMillis != null) {
                     SimpleDateFormat(
-                        stringResource(R.string.date_format),
+                        dateFormat,
                         Locale.getDefault()
                     ).format(datePickerState.selectedDateMillis)
                 } else {
-                    "Choose Date"
+                    dateLabel
                 },
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -125,6 +129,10 @@ fun ShowDateDialog(
 fun DatePickerPreview() {
     val datePickerState = rememberDatePickerState()
     ERIMSAppTheme {
-        CustomDatePicker(datePickerState = datePickerState)
+        CustomDatePicker(
+            datePickerState = datePickerState,
+            dateFormat = stringResource(R.string.date_format),
+            dateLabel = "Choose Date"
+        )
     }
 }
