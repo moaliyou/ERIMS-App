@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ERIMS-App</string>
+    <string name="date_picker_dialog_OK">OK</string>
+    <string name="date_picker_dialog_DISMISS">Dismiss</string>
+    <string name="date_format">MMMM d, yyyy</string>
 </resources>
