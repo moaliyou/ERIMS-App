@@ -98,7 +98,7 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             onValueChange = {},
             label = { Text(text = stringResource(R.string.job_title)) },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
