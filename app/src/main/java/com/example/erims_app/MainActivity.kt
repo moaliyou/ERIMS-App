@@ -7,9 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.Modifier
-import com.example.erims_app.ui.components.CustomDatePicker
+import com.example.erims_app.ui.screens.employee.EmployeeEntryScreen
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,8 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val datePickerState = rememberDatePickerState()
-                    CustomDatePicker(datePickerState = datePickerState)
+                    EmployeeEntryScreen()
                 }
             }
         }

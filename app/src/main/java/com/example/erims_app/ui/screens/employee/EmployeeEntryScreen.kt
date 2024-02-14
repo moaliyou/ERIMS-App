@@ -14,9 +14,11 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.erims_app.R
+import com.example.erims_app.ui.components.CustomDatePicker
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @Composable
@@ -32,6 +34,8 @@ fun EmployeeBody() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EmployeeForm(modifier: Modifier = Modifier) {
+    val datePickerState = rememberDatePickerState()
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium_padding))
@@ -39,7 +43,7 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
         TextField(
             value = "",
             onValueChange = {},
-            label = { Text(text = "First name") },
+            label = { Text(text = stringResource(R.string.first_name)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             colors = TextFieldDefaults.colors(
@@ -50,7 +54,7 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
         TextField(
             value = "",
             onValueChange = {},
-            label = { Text(text = "Last name") },
+            label = { Text(text = stringResource(R.string.last_name)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             colors = TextFieldDefaults.colors(
@@ -58,20 +62,15 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             ),
             modifier = Modifier.fillMaxWidth()
         )
-        TextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(text = "Date of birth") },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
-            ),
-            modifier = Modifier.fillMaxWidth()
+        CustomDatePicker(
+            datePickerState = datePickerState,
+            dateFormat = stringResource(R.string.date_format),
+            dateLabel = stringResource(R.string.date_of_birth)
         )
         TextField(
             value = "",
             onValueChange = {},
-            label = { Text(text = "Job title") },
+            label = { Text(text = stringResource(R.string.job_title)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             colors = TextFieldDefaults.colors(
@@ -82,7 +81,7 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
         TextField(
             value = "",
             onValueChange = {},
-            label = { Text(text = "Salary") },
+            label = { Text(text = stringResource(R.string.salary)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             colors = TextFieldDefaults.colors(
@@ -90,8 +89,6 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             ),
             modifier = Modifier.fillMaxWidth()
         )
-        val datePickerState = rememberDatePickerState()
-        //TransactionDatePicker(datePickerState = datePickerState)
     }
 }
 
