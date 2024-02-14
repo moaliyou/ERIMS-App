@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,6 +13,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -22,13 +24,35 @@ import com.example.erims_app.ui.components.CustomDatePicker
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @Composable
-fun EmployeeEntryScreen() {
-
+fun EmployeeEntryScreen(
+    onSaveClick: () -> Unit
+) {
+    EmployeeEntryBody(
+        onSaveClick = onSaveClick,
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable
-fun EmployeeBody() {
-
+fun EmployeeEntryBody(
+    modifier: Modifier = Modifier,
+    onSaveClick: () -> Unit
+) {
+    Column(
+        modifier = modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium_padding)),
+        horizontalAlignment = Alignment.End
+    ) {
+        EmployeeForm(
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            shape = MaterialTheme.shapes.medium
+        ) {
+            Text(text = stringResource(R.string.save_button))
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,7 +71,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
+                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -58,7 +83,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
+                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -74,7 +100,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
+                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -85,7 +112,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
+                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -106,6 +134,8 @@ fun EmployeeFormPreview() {
 @Composable
 fun EmployeeEntryScreenPreview() {
     ERIMSAppTheme {
-        EmployeeEntryScreen()
+        EmployeeEntryScreen(
+            onSaveClick = {}
+        )
     }
 }
