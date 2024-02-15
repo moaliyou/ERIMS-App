@@ -6,4 +6,6 @@
     <dimen name="extra_medium_padding">16dp</dimen>
     <dimen name="large_padding">32dp</dimen>
     <dimen name="extra_large_padding">64dp</dimen>
+    <dimen name="icon_size">36dp</dimen>
+    <dimen name="icon_container_size">64dp</dimen>
 </resources>
