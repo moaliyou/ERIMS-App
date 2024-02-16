@@ -40,7 +40,8 @@ import java.util.Locale
 fun CustomDatePicker(
     datePickerState: DatePickerState,
     dateFormat: String,
-    dateLabel: String
+    dateLabel: String,
+    onDateValueChange: (String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -55,6 +56,14 @@ fun CustomDatePicker(
             derivedStateOf { datePickerState.selectedDateMillis != null }
         }
         val interactionSource = remember { MutableInteractionSource() }
+        val dateValue = if (datePickerState.selectedDateMillis != null) {
+            SimpleDateFormat(
+                dateFormat,
+                Locale.getDefault()
+            ).format(datePickerState.selectedDateMillis)
+        } else {
+            dateLabel
+        }
 
         Row(
             modifier = Modifier
@@ -62,19 +71,15 @@ fun CustomDatePicker(
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null
-                ) { isDialogVisible.value = true },
+                ) {
+                    isDialogVisible.value = true
+                    onDateValueChange(dateValue)
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier.weight(1f),
-                text = if (datePickerState.selectedDateMillis != null) {
-                    SimpleDateFormat(
-                        dateFormat,
-                        Locale.getDefault()
-                    ).format(datePickerState.selectedDateMillis)
-                } else {
-                    dateLabel
-                },
+                text = dateValue,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -135,7 +140,8 @@ fun DatePickerPreview() {
         CustomDatePicker(
             datePickerState = datePickerState,
             dateFormat = stringResource(R.string.date_format),
-            dateLabel = "Choose Date"
+            dateLabel = "Choose Date",
+            onDateValueChange = {}
         )
     }
 }

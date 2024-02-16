@@ -17,26 +17,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
+import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomDatePicker
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @Composable
 fun EmployeeEntryScreen(
-    onSaveClick: () -> Unit
+    onSaveClick: () -> Unit,
+    viewModel: EmployeeEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     EmployeeEntryBody(
         onSaveClick = onSaveClick,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        employeeUiState = viewModel.employeeUiState,
+        onEmployeeValueChange = viewModel::updateUiState
     )
 }
 
 @Composable
 fun EmployeeEntryBody(
     modifier: Modifier = Modifier,
-    onSaveClick: () -> Unit
+    onSaveClick: () -> Unit,
+    employeeUiState: EmployeeUiState,
+    onEmployeeValueChange: (EmployeeDetails) -> Unit
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
@@ -44,11 +52,14 @@ fun EmployeeEntryBody(
         horizontalAlignment = Alignment.End
     ) {
         EmployeeForm(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            employeeDetails = employeeUiState.employeeDetails,
+            onValueChange = onEmployeeValueChange
         )
         Button(
             onClick = onSaveClick,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+            enabled = employeeUiState.isEntryValid
         ) {
             Text(text = stringResource(R.string.save_button))
         }
@@ -57,7 +68,12 @@ fun EmployeeEntryBody(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EmployeeForm(modifier: Modifier = Modifier) {
+private fun EmployeeForm(
+    modifier: Modifier = Modifier,
+    employeeDetails: EmployeeDetails,
+    onValueChange: (EmployeeDetails) -> Unit = {},
+    enabled: Boolean = true
+) {
     val datePickerState = rememberDatePickerState()
 
     Column(
@@ -65,57 +81,74 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium_padding))
     ) {
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.firstName,
+            onValueChange = { onValueChange(employeeDetails.copy(firstName = it)) },
             label = { Text(text = stringResource(R.string.first_name)) },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.lastName,
+            onValueChange = { onValueChange(employeeDetails.copy(lastName = it)) },
             label = { Text(text = stringResource(R.string.last_name)) },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled
         )
         CustomDatePicker(
             datePickerState = datePickerState,
             dateFormat = stringResource(R.string.date_format),
-            dateLabel = stringResource(R.string.date_of_birth)
+            dateLabel = stringResource(R.string.date_of_birth),
+            onDateValueChange = { onValueChange(employeeDetails.copy(dateOfBirth = it)) }
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.jobTitle,
+            onValueChange = { onValueChange(employeeDetails.copy(jobTitle = it)) },
             label = { Text(text = stringResource(R.string.job_title)) },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.salary,
+            onValueChange = { onValueChange(employeeDetails.copy(salary = it)) },
             label = { Text(text = stringResource(R.string.salary)) },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = ImeAction.Done
+            ),
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled
         )
     }
 }
@@ -125,7 +158,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
 fun EmployeeFormPreview() {
     ERIMSAppTheme {
         EmployeeForm(
-            modifier = Modifier.padding(dimensionResource(R.dimen.extra_medium_padding))
+            modifier = Modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
+            employeeDetails = EmployeeDetails()
         )
     }
 }
