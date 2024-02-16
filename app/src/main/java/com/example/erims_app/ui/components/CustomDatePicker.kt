@@ -36,7 +36,6 @@ import com.example.erims_app.ui.theme.ERIMSAppTheme
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomDatePicker(
     datePickerState: DatePickerState,
@@ -128,7 +127,6 @@ fun ShowDateDialog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun DatePickerPreview() {
