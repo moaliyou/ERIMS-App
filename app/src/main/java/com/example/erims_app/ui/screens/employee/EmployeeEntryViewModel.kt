@@ -1,27 +1,24 @@
 package com.example.erims_app.ui.screens.employee
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.erims_app.data.local.entities.Employee
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import java.text.NumberFormat
 
-class EmployeeViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow<EmployeeUiState>(EmployeeUiState())
-    val employeeUiState: StateFlow<EmployeeUiState> = _uiState.asStateFlow()
+class EmployeeEntryViewModel : ViewModel() {
+    var employeeUiState by mutableStateOf(EmployeeUiState())
+        private set
 
     fun updateUiState(employeeDetails: EmployeeDetails) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                employeeDetails = employeeDetails,
-                isEntryValid = validateInput(currentState.employeeDetails)
-            )
-        }
+        employeeUiState = EmployeeUiState(
+            employeeDetails = employeeDetails,
+            isEntryValid = validateInput(employeeDetails)
+        )
     }
 
-    private fun validateInput(uiState: EmployeeDetails = employeeUiState.value.employeeDetails): Boolean {
+    private fun validateInput(uiState: EmployeeDetails = employeeUiState.employeeDetails): Boolean {
         return with(uiState) {
             firstName.isNotBlank() && lastName.isNotBlank()
                     && dateOfBirth.isNotBlank() && jobTitle.isNotBlank() && salary.isNotBlank()
