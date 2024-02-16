@@ -4,6 +4,7 @@ package com.example.erims_app.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,11 +55,15 @@ fun CustomDatePicker(
         val confirmEnabled by remember {
             derivedStateOf { datePickerState.selectedDateMillis != null }
         }
+        val interactionSource = remember { MutableInteractionSource() }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { isDialogVisible.value = true },
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) { isDialogVisible.value = true },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
