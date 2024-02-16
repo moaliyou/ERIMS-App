@@ -27,16 +27,17 @@ import com.example.erims_app.ui.theme.ERIMSAppTheme
 fun EmployeeEntryScreen(
     onSaveClick: () -> Unit
 ) {
-    EmployeeEntryBody(
-        onSaveClick = onSaveClick,
-        modifier = Modifier.fillMaxWidth()
-    )
+//    EmployeeEntryBody(
+//        onSaveClick = onSaveClick,
+//        modifier = Modifier.fillMaxWidth()
+//    )
 }
 
 @Composable
 fun EmployeeEntryBody(
     modifier: Modifier = Modifier,
-    onSaveClick: () -> Unit
+    onSaveClick: () -> Unit,
+    employeeUiState: EmployeeUiState
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
@@ -44,11 +45,13 @@ fun EmployeeEntryBody(
         horizontalAlignment = Alignment.End
     ) {
         EmployeeForm(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            employeeDetails = employeeUiState.employeeDetails
         )
         Button(
             onClick = onSaveClick,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+            enabled = employeeUiState.isEntryValid
         ) {
             Text(text = stringResource(R.string.save_button))
         }
@@ -57,7 +60,12 @@ fun EmployeeEntryBody(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EmployeeForm(modifier: Modifier = Modifier) {
+private fun EmployeeForm(
+    modifier: Modifier = Modifier,
+    employeeDetails: EmployeeDetails,
+    onValueChange: (EmployeeDetails) -> Unit = {},
+    enabled: Boolean = true
+) {
     val datePickerState = rememberDatePickerState()
 
     Column(
@@ -65,8 +73,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium_padding))
     ) {
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.firstName,
+            onValueChange = { onValueChange(employeeDetails.copy(firstName = it)) },
             label = { Text(text = stringResource(R.string.first_name)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -77,8 +85,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.lastName,
+            onValueChange = { onValueChange(employeeDetails.copy(lastName = it)) },
             label = { Text(text = stringResource(R.string.last_name)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -94,8 +102,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             dateLabel = stringResource(R.string.date_of_birth)
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.jobTitle,
+            onValueChange = { onValueChange(employeeDetails.copy(jobTitle = it)) },
             label = { Text(text = stringResource(R.string.job_title)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -106,8 +114,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = employeeDetails.salary,
+            onValueChange = { onValueChange(employeeDetails.copy(salary = it)) },
             label = { Text(text = stringResource(R.string.salary)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -125,7 +133,8 @@ private fun EmployeeForm(modifier: Modifier = Modifier) {
 fun EmployeeFormPreview() {
     ERIMSAppTheme {
         EmployeeForm(
-            modifier = Modifier.padding(dimensionResource(R.dimen.extra_medium_padding))
+            modifier = Modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
+            employeeDetails = EmployeeDetails()
         )
     }
 }
