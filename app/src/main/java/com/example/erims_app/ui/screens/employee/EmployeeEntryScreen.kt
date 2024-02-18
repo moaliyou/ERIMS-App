@@ -1,3 +1,8 @@
+@file:OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
+
 package com.example.erims_app.ui.screens.employee
 
 import androidx.compose.foundation.layout.Arrangement
@@ -5,9 +10,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -24,25 +29,49 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
 import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomDatePicker
+import com.example.erims_app.ui.components.CustomFAB
+import com.example.erims_app.ui.components.CustomTopAppBar
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @Composable
 fun EmployeeEntryScreen(
-    onSaveClick: () -> Unit,
-    viewModel: EmployeeEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: EmployeeEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    canNavigateBack: Boolean = true,
+    onNavigationUp: () -> Unit,
+    navigateBack: () -> Unit
 ) {
-    EmployeeEntryBody(
-        onSaveClick = onSaveClick,
-        modifier = Modifier.fillMaxWidth(),
-        employeeUiState = viewModel.employeeUiState,
-        onEmployeeValueChange = viewModel::updateUiState
-    )
+    val isEntryValid = viewModel.employeeUiState.isEntryValid
+
+    Scaffold(
+        topBar = {
+            CustomTopAppBar(
+                title = stringResource(R.string.employee_entry_title),
+                onNavigationBack = onNavigationUp,
+                canNavigateBack = canNavigateBack
+            )
+        },
+        floatingActionButton = {
+            CustomFAB(
+                onClick = { navigateBack() },
+                iconId = R.drawable.ic_check,
+                iconTitleId = R.string.employee_entry_title,
+                enabled = isEntryValid
+            )
+        }
+    ) { innerPadding ->
+        EmployeeEntryBody(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
+            employeeUiState = viewModel.employeeUiState,
+            onEmployeeValueChange = viewModel::updateUiState
+        )
+    }
 }
 
 @Composable
 fun EmployeeEntryBody(
     modifier: Modifier = Modifier,
-    onSaveClick: () -> Unit,
     employeeUiState: EmployeeUiState,
     onEmployeeValueChange: (EmployeeDetails) -> Unit
 ) {
@@ -56,13 +85,6 @@ fun EmployeeEntryBody(
             employeeDetails = employeeUiState.employeeDetails,
             onValueChange = onEmployeeValueChange
         )
-        Button(
-            onClick = onSaveClick,
-            shape = MaterialTheme.shapes.medium,
-            enabled = employeeUiState.isEntryValid
-        ) {
-            Text(text = stringResource(R.string.save_button))
-        }
     }
 }
 
@@ -169,7 +191,8 @@ fun EmployeeFormPreview() {
 fun EmployeeEntryScreenPreview() {
     ERIMSAppTheme {
         EmployeeEntryScreen(
-            onSaveClick = {}
+            onNavigationUp = {},
+            navigateBack = {}
         )
     }
 }
