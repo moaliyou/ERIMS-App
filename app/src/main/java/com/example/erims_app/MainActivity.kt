@@ -21,7 +21,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    EmployeeEntryScreen(onSaveClick = {})
+                    EmployeeEntryScreen(
+                        navigateBack = {},
+                        onNavigationUp = {},
+                        canNavigateBack = true
+                    )
                 }
             }
         }

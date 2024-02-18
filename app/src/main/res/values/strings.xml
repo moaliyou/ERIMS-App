@@ -10,4 +10,6 @@
     <string name="job_title">Job title</string>
     <string name="salary">Salary</string>
     <string name="save_button">Save</string>
+    <string name="back_button">Back</string>
+    <string name="employee_entry_title">Employee Entry</string>
 </resources>
