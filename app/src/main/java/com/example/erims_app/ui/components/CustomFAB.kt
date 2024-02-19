@@ -19,15 +19,14 @@ import com.example.erims_app.ui.theme.ERIMSAppTheme
 fun CustomFAB(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    enabled: Boolean = false,
     @DrawableRes iconId: Int,
     @StringRes iconTitleId: Int
 ) {
     FloatingActionButton(
         onClick = onClick,
         shape = CircleShape,
-        containerColor = if (enabled) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-        contentColor = if (enabled) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onBackground,
+        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
         modifier = modifier
     ) {
         Icon(
@@ -43,7 +42,6 @@ private fun CustomFABPreview() {
     ERIMSAppTheme {
         CustomFAB(
             onClick = {},
-            enabled = false,
             iconId = R.drawable.ic_check,
             iconTitleId = R.string.employee_entry_title
         )
