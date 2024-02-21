@@ -16,4 +16,6 @@
     <string name="back_button">Back</string>
     <string name="employee_entry_title">Employee Entry</string>
     <string name="summary_report">Summary Report</string>
+    <string name="home_screen_title">Home</string>
+    <string name="employee_screen_title">Employee</string>
 </resources>
