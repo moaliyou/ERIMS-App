@@ -18,4 +18,8 @@
     <string name="summary_report">Summary Report</string>
     <string name="home_screen_title">Home</string>
     <string name="employee_screen_title">Employee</string>
+    <string name="retirement_plan_screen_title">Plan</string>
+    <string name="retirement_benefit_screen_title">Benefit</string>
+    <string name="retirement_screen_title">Retirement</string>
+    <string name="payout_screen_title">Payout</string>
 </resources>
