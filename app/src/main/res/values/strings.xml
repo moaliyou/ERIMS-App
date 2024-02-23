@@ -4,6 +4,9 @@
     <string name="date_picker_dialog_DISMISS">Dismiss</string>
     <string name="date_format">MMMM d, yyyy</string>
     <string name="employee_card_label">No. of employees</string>
+    <string name="max_contribution_card_label">Max Contribution Limit</string>
+    <string name="min_contribution_card_label">Min Contribution Limit</string>
+    <string name="vesting_period_card_label">Highest Vesting Period</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="date_of_birth">Date of birth</string>
@@ -12,4 +15,11 @@
     <string name="save_button">Save</string>
     <string name="back_button">Back</string>
     <string name="employee_entry_title">Employee Entry</string>
+    <string name="summary_report">Summary Report</string>
+    <string name="home_screen_title">Home</string>
+    <string name="employee_screen_title">Employee</string>
+    <string name="retirement_plan_screen_title">Plan</string>
+    <string name="retirement_benefit_screen_title">Benefit</string>
+    <string name="retirement_screen_title">Retirement</string>
+    <string name="payout_screen_title">Payout</string>
 </resources>
