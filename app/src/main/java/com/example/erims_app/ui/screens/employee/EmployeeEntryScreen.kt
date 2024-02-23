@@ -1,7 +1,4 @@
-@file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class
-)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.example.erims_app.ui.screens.employee
 
@@ -54,12 +51,13 @@ fun EmployeeEntryScreen(
             )
         },
         floatingActionButton = {
-            CustomFAB(
-                onClick = { navigateBack() },
-                iconId = R.drawable.ic_check,
-                iconTitleId = R.string.employee_entry_title,
-                enabled = isEntryValid
-            )
+            if (isEntryValid) {
+                CustomFAB(
+                    onClick = { navigateBack() },
+                    iconId = R.drawable.ic_check,
+                    iconTitleId = R.string.employee_entry_title
+                )
+            }
         }
     ) { innerPadding ->
         EmployeeEntryBody(

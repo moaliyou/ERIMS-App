@@ -22,4 +22,7 @@
     <string name="retirement_benefit_screen_title">Benefit</string>
     <string name="retirement_screen_title">Retirement</string>
     <string name="payout_screen_title">Payout</string>
+    <string name="id_label">Id</string>
+    <string name="no_employee_description">No employee data\nTap + button to add.</string>
+    <string name="empty_list">empty list</string>
 </resources>
