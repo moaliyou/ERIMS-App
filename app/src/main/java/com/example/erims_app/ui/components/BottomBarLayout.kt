@@ -112,8 +112,7 @@ private fun CustomNavigationBarItem(
 @Composable
 private fun CustomNavigationBarPreview() {
     ERIMSAppTheme {
-        val navigationItemList =
-            listOf(Screen.Home, Screen.Employee)
+        val navigationItemList = Screen.getNavigationItems()
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
