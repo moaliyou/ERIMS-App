@@ -32,17 +32,17 @@ import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @Composable
 fun HomeScreen(
-    canNavigateBack: Boolean = true,
-    onNavigationUp: () -> Unit
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
             CustomTopAppBar(
                 title = stringResource(R.string.summary_report),
-                onNavigationBack = onNavigationUp,
-                canNavigateBack = canNavigateBack
+                onNavigationBack = { },
+                canNavigateBack = false
             )
-        }
+        },
+        modifier = modifier
     ) { innerPadding ->
         HomeDashboard(modifier = Modifier
             .padding(innerPadding)
@@ -59,7 +59,7 @@ fun HomeDashboard(modifier: Modifier = Modifier) {
         HomeContent(
             dataLabel = stringResource(R.string.employee_card_label),
             data = "590",
-            iconId = R.drawable.ic_employee
+            iconId = R.drawable.ic_employee_outline
         )
         HomeContent(
             dataLabel = stringResource(R.string.vesting_period_card_label),
@@ -155,9 +155,6 @@ private fun HomeDashboardPreview() {
 @Composable
 private fun HomeScreenPreview() {
     ERIMSAppTheme {
-        HomeScreen(
-            canNavigateBack = false,
-            onNavigationUp = {}
-        )
+        HomeScreen()
     }
 }
