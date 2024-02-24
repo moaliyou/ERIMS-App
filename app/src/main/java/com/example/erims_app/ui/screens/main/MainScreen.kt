@@ -5,10 +5,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.erims_app.R
 import com.example.erims_app.ui.components.CustomNavigationBar
 import com.example.erims_app.ui.navigation.AppNavHost
 import com.example.erims_app.ui.navigation.Screen
@@ -38,7 +40,8 @@ fun MainScreen() {
                         // Restore state when re-selecting a previously selected item
                         restoreState = true
                     }
-                }
+                },
+                modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
             )
         }
     ) {

@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.erims_app.ui.screens.employee.EmployeeEntryScreen
+import com.example.erims_app.ui.screens.employee.EmployeeDetailsScreen
 import com.example.erims_app.ui.screens.home.HomeScreen
 
 @Composable
@@ -18,11 +18,7 @@ fun AppNavHost(
             HomeScreen(modifier = modifier)
         }
         composable(route = Screen.Employee.route) {
-            EmployeeEntryScreen(
-                canNavigateBack = false,
-                onNavigationUp = { navController.navigateUp() },
-                navigateBack = { navController.popBackStack() }
-            )
+            EmployeeDetailsScreen()
         }
     }
 }
