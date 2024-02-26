@@ -40,6 +40,7 @@ fun CustomNavigationBar(
     navigationItemList: List<Screen>,
     destination: NavDestination?,
     onNavigationItemSelected: (String) -> Unit,
+    onAddClick: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -58,7 +59,7 @@ fun CustomNavigationBar(
 
             if (index == 2) {
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = onAddClick,
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.tertiary)
@@ -121,6 +122,7 @@ private fun CustomNavigationBarPreview() {
             navigationItemList = navigationItemList,
             destination = currentDestination,
             onNavigationItemSelected = { navController.navigate(it) },
+            onAddClick = {},
             modifier = Modifier
                 .fillMaxWidth()
         )

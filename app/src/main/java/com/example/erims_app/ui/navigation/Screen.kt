@@ -22,7 +22,12 @@ sealed class Screen(
         titleResourceId = R.string.employee_screen_title,
         selectedIcon = R.drawable.ic_employee_filled,
         unselectedIcon = R.drawable.ic_employee_outline
-    )
+    ) {
+        data object EmployeeEntry : Screen(
+            route = "employee_entry",
+            titleResourceId = R.string.employee_entry_title
+        )
+    }
 
     data object Retirement : Screen(
         route = "retirement",
