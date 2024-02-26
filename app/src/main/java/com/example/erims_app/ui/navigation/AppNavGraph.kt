@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.erims_app.ui.screens.employee.EmployeeDetailsScreen
+import com.example.erims_app.ui.screens.employee.EmployeeEntryScreen
 import com.example.erims_app.ui.screens.home.HomeScreen
 
 @Composable
@@ -19,6 +20,17 @@ fun AppNavHost(
         }
         composable(route = Screen.Employee.route) {
             EmployeeDetailsScreen()
+        }
+        composable(route = Screen.Employee.EmployeeEntry.route) {
+            EmployeeEntryScreen(
+                canNavigateBack = true,
+                onNavigationUp = {
+                    navController.navigateUp()
+                },
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
