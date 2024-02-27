@@ -12,15 +12,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -29,13 +32,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.erims_app.R
 import com.example.erims_app.data.local.entities.Employee
+import com.example.erims_app.ui.components.CustomTopAppBar
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeDetailsScreen(
-
+    modifier: Modifier = Modifier
 ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CustomTopAppBar(
+                title = stringResource(R.string.employee_details_title),
+                canNavigateBack = false,
+                onNavigationBack = { },
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { innerPadding ->
+        EmployeeDetailsBody(
+            employeeList = listOf(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        )
+    }
 }
 
 @Composable
