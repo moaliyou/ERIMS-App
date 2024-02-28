@@ -67,7 +67,7 @@ fun MainScreen() {
                         }
                     }
                 },
-                modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding)),
+                modifier = Modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
                 mainUiState = mainUiState
             )
         },
