@@ -26,12 +26,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.erims_app.R
+import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.navigation.Screen
+import com.example.erims_app.ui.screens.main.MainUiState
+import com.example.erims_app.ui.screens.main.MainViewModel
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @Composable
@@ -40,43 +44,46 @@ fun CustomNavigationBar(
     navigationItemList: List<Screen>,
     destination: NavDestination?,
     onNavigationItemSelected: (String) -> Unit,
-    onAddClick: () -> Unit
+    onAddClick: () -> Unit,
+    mainUiState: MainUiState
 ) {
-    Row(
-        modifier = modifier
-            .windowInsetsPadding(WindowInsets.navigationBars)
-            .clip(RoundedCornerShape(dimensionResource(R.dimen.extra_medium_padding)))
-            .background(MaterialTheme.colorScheme.secondaryContainer)
-            .padding(dimensionResource(R.dimen.medium_padding))
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        navigationItemList.forEachIndexed { index, screen ->
-            val selectedDestination = destination?.hierarchy?.any { currentDestination ->
-                currentDestination.route == screen.route
-            } == true
+    if (mainUiState.isNavigationBarVisible) {
+        Row(
+            modifier = modifier
+                .windowInsetsPadding(WindowInsets.navigationBars)
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.extra_medium_padding)))
+                .background(MaterialTheme.colorScheme.secondaryContainer)
+                .padding(dimensionResource(R.dimen.medium_padding))
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            navigationItemList.forEachIndexed { index, screen ->
+                val selectedDestination = destination?.hierarchy?.any { currentDestination ->
+                    currentDestination.route == screen.route
+                } == true
 
-            if (index == 2) {
-                IconButton(
-                    onClick = onAddClick,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.tertiary)
-                ) {
-                    Icon(
-                        Icons.Filled.Add,
-                        contentDescription = "Add button",
-                        tint = MaterialTheme.colorScheme.onTertiary
-                    )
+                if (index == 2) {
+                    IconButton(
+                        onClick = onAddClick,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.tertiary)
+                    ) {
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = "Add button",
+                            tint = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
                 }
-            }
 
-            CustomNavigationBarItem(
-                navigationItem = screen,
-                isSelected = selectedDestination,
-                onItemClickChange = { onNavigationItemSelected(screen.route) }
-            )
+                CustomNavigationBarItem(
+                    navigationItem = screen,
+                    isSelected = selectedDestination,
+                    onItemClickChange = { onNavigationItemSelected(screen.route) }
+                )
+            }
         }
     }
 }
@@ -117,6 +124,8 @@ private fun CustomNavigationBarPreview() {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
+        val mainViewModel: MainViewModel = viewModel(factory = AppViewModelProvider.Factory)
+        val mainUiState = mainViewModel.mainUiState
 
         CustomNavigationBar(
             navigationItemList = navigationItemList,
@@ -124,7 +133,8 @@ private fun CustomNavigationBarPreview() {
             onNavigationItemSelected = { navController.navigate(it) },
             onAddClick = {},
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            mainUiState = mainUiState
         )
     }
 }
