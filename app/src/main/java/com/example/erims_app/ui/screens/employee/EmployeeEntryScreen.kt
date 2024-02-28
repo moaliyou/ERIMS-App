@@ -2,6 +2,7 @@
 
 package com.example.erims_app.ui.screens.employee
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -66,7 +67,8 @@ fun EmployeeEntryScreen(
                 .padding(innerPadding)
                 .windowInsetsPadding(WindowInsets.navigationBars),
             employeeUiState = viewModel.employeeUiState,
-            onEmployeeValueChange = viewModel::updateUiState
+            onEmployeeValueChange = viewModel::updateUiState,
+            onBackClick = onNavigationUp
         )
     }
 }
@@ -75,7 +77,8 @@ fun EmployeeEntryScreen(
 fun EmployeeEntryBody(
     modifier: Modifier = Modifier,
     employeeUiState: EmployeeUiState,
-    onEmployeeValueChange: (EmployeeDetails) -> Unit
+    onEmployeeValueChange: (EmployeeDetails) -> Unit,
+    onBackClick: () -> Unit
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
@@ -87,6 +90,9 @@ fun EmployeeEntryBody(
             employeeDetails = employeeUiState.employeeDetails,
             onValueChange = onEmployeeValueChange
         )
+    }
+    BackHandler {
+        onBackClick()
     }
 }
 
@@ -194,7 +200,7 @@ fun EmployeeEntryScreenPreview() {
     ERIMSAppTheme {
         EmployeeEntryScreen(
             onNavigationUp = {},
-            navigateBack = {}
+            navigateBack = {},
         )
     }
 }
