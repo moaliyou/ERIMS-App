@@ -7,6 +7,6 @@ class DefaultApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        container
+        container = AppDataContainer(this)
     }
 }

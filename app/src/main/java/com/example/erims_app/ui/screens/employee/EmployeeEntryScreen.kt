@@ -19,6 +19,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -33,6 +34,7 @@ import com.example.erims_app.ui.components.CustomDatePicker
 import com.example.erims_app.ui.components.CustomFAB
 import com.example.erims_app.ui.components.CustomTopAppBar
 import com.example.erims_app.ui.theme.ERIMSAppTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun EmployeeEntryScreen(
@@ -42,6 +44,7 @@ fun EmployeeEntryScreen(
     navigateBack: () -> Unit
 ) {
     val isEntryValid = viewModel.employeeUiState.isEntryValid
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -54,7 +57,12 @@ fun EmployeeEntryScreen(
         floatingActionButton = {
             if (isEntryValid) {
                 CustomFAB(
-                    onClick = { navigateBack() },
+                    onClick = {
+                        coroutineScope.launch {
+                            viewModel.saveEmployee()
+                            navigateBack()
+                        }
+                    },
                     iconId = R.drawable.ic_check,
                     iconTitleId = R.string.employee_entry_title
                 )

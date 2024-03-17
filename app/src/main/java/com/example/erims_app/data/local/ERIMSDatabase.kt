@@ -22,7 +22,7 @@ abstract class ERIMSDatabase : RoomDatabase() {
         @Volatile
         private var instance: ERIMSDatabase? = null
 
-        fun getInstance(context: Context): ERIMSDatabase {
+        fun getDatabase(context: Context): ERIMSDatabase {
             return instance ?: synchronized(this) {
                 Room.databaseBuilder(
                     context.applicationContext,
