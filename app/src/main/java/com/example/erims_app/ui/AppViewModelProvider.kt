@@ -9,7 +9,7 @@ import com.example.erims_app.ui.screens.main.MainViewModel
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            EmployeeEntryViewModel(DefaultApplication().container.employeeRepository)
+            EmployeeEntryViewModel(DefaultApplication().container.employeesRepository)
         }
         initializer {
             MainViewModel()

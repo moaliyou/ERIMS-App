@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.erims_app.data.local.entities.Employee
-import com.example.erims_app.data.local.repository.EmployeeRepository
+import com.example.erims_app.data.local.repository.EmployeesRepository
 import java.text.NumberFormat
 
 class EmployeeEntryViewModel(
-    private val employeeRepository: EmployeeRepository
+    private val employeesRepository: EmployeesRepository
 ) : ViewModel() {
     var employeeUiState by mutableStateOf(EmployeeUiState())
         private set
@@ -23,7 +23,7 @@ class EmployeeEntryViewModel(
 
     suspend fun saveEmployee() {
         if (validateInput()) {
-            employeeRepository.insertEmployee(employeeUiState.employeeDetails.toEmployee())
+            employeesRepository.insertEmployee(employeeUiState.employeeDetails.toEmployee())
         }
     }
 

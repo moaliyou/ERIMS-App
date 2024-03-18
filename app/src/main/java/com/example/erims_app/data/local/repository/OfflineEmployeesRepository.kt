@@ -4,17 +4,10 @@ import com.example.erims_app.data.local.dao.EmployeeDao
 import com.example.erims_app.data.local.entities.Employee
 import kotlinx.coroutines.flow.Flow
 
-interface EmployeeRepository {
-    fun getAllEmployeesStream(): Flow<List<Employee>>
-    fun getEmployeeStream(id: Int): Flow<Employee?>
-    suspend fun insertEmployee(employee: Employee)
-    suspend fun deleteEmployee(employee: Employee)
-    suspend fun updateEmployee(employee: Employee)
-}
 
-class EmployeeRepositoryLocal(
+class OfflineEmployeesRepository(
     private val employeeDao: EmployeeDao
-): EmployeeRepository {
+): EmployeesRepository {
     override fun getAllEmployeesStream(): Flow<List<Employee>> = employeeDao.getAllEmployees()
 
     override fun getEmployeeStream(id: Int): Flow<Employee?> = employeeDao.getEmployee(id)
