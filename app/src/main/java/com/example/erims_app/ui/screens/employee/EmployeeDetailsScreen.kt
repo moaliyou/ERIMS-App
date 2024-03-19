@@ -64,6 +64,7 @@ fun EmployeeDetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .padding(dimensionResource(R.dimen.small_padding))
         )
     }
 }
@@ -73,11 +74,12 @@ private fun EmployeeDetailsBody(
     modifier: Modifier = Modifier,
     employeeList: List<Employee>
 ) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (employeeList.isEmpty()) {
+    if (employeeList.isEmpty()) {
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_empty),
                 contentDescription = stringResource(R.string.empty_list),
@@ -91,12 +93,12 @@ private fun EmployeeDetailsBody(
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyLarge
             )
-        } else {
-            EmployeeList(
-                employeeList = employeeList,
-                modifier = Modifier.padding(dimensionResource(R.dimen.small_padding))
-            )
         }
+    } else {
+        EmployeeList(
+            employeeList = employeeList,
+            modifier = modifier
+        )
     }
 }
 
@@ -105,12 +107,16 @@ private fun EmployeeList(
     modifier: Modifier = Modifier,
     employeeList: List<Employee>
 ) {
-    LazyColumn(modifier = modifier) {
-        items(items = employeeList, key = { it.id }) { employee ->
-            EmployeeContent(
-                employee = employee,
-                modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
-            )
+    Column(
+        modifier = modifier
+    ) {
+        LazyColumn {
+            items(items = employeeList, key = { it.id }) { employee ->
+                EmployeeContent(
+                    employee = employee,
+                    modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
+                )
+            }
         }
     }
 }
@@ -145,7 +151,7 @@ private fun EmployeeContent(
             EmployeeContentRow(
                 employeeId = employee.id,
                 employeeDateOfBirth = employee.dateOfBirth,
-                employeeSalary = employee.salary,
+                employeeSalary = employee.formattedSalary(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(dimensionResource(R.dimen.medium_padding)))
@@ -160,7 +166,7 @@ private fun EmployeeContent(
 private fun EmployeeContentRow(
     employeeId: Int,
     employeeDateOfBirth: String,
-    employeeSalary: Double,
+    employeeSalary: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -193,7 +199,7 @@ private fun EmployeeContentRow(
                 style = MaterialTheme.typography.titleSmall
             )
             Text(
-                text = "$$employeeSalary",
+                text = employeeSalary,
                 style = MaterialTheme.typography.titleMedium
             )
         }
