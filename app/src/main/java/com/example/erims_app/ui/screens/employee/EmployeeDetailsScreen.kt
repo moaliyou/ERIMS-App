@@ -19,6 +19,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,17 +32,21 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
 import com.example.erims_app.data.local.entities.Employee
+import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomTopAppBar
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeDetailsScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: EmployeeDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val employeeDetailsUiState by viewModel.employeeDetailsUiState.collectAsState()
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -54,7 +60,7 @@ fun EmployeeDetailsScreen(
         }
     ) { innerPadding ->
         EmployeeDetailsBody(
-            employeeList = listOf(),
+            employeeList = employeeDetailsUiState.employeeList,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -69,7 +75,6 @@ private fun EmployeeDetailsBody(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (employeeList.isEmpty()) {
