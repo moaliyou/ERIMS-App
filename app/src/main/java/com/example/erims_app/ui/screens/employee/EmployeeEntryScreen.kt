@@ -154,7 +154,13 @@ private fun EmployeeForm(
             datePickerState = datePickerState,
             dateFormat = stringResource(R.string.date_format),
             dateLabel = stringResource(R.string.date_of_birth),
-            onDateValueChange = { onValueChange(employeeDetails.copy(dateOfBirth = it)) }
+            onDateValueChange = {
+                onValueChange(
+                    employeeDetails.copy(
+                        dateOfBirth = if (it.contains("Date of birth")) "" else it
+                    )
+                )
+            }
         )
         TextField(
             value = employeeDetails.jobTitle,

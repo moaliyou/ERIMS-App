@@ -30,7 +30,8 @@ class EmployeeEntryViewModel(
     private fun validateInput(uiState: EmployeeDetails = employeeUiState.employeeDetails): Boolean {
         return with(uiState) {
             firstName.isNotBlank() && lastName.isNotBlank()
-                    && dateOfBirth.isNotBlank() && jobTitle.isNotBlank() && salary.isNotBlank()
+                    && dateOfBirth.isNotBlank()
+                    && jobTitle.isNotBlank() && salary.isNotBlank()
         }
     }
 
