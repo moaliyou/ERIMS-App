@@ -67,24 +67,39 @@ fun HomeDashboard(modifier: Modifier = Modifier) {
             iconId = R.drawable.ic_employee_outline,
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            iconBackgroundColor = if (isSystemInDarkTheme()) Color(0xFF237F5E)  else Color(0xFFBCDCD0)
+            iconBackgroundColor = if (isSystemInDarkTheme()) {
+                MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
+            } else MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
         )
         HomeContent(
             dataLabel = stringResource(R.string.vesting_period_card_label),
             data = "25",
             iconId = R.drawable.ic_vesting_period,
-            containerColor = if (isSystemInDarkTheme()) Color(0xFF3050AE) else Color(0xFFE4EAFF),
-            contentColor = if (isSystemInDarkTheme()) Color(0xFFE4EAFF) else Color(0xFF3050AE),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            iconBackgroundColor = if (isSystemInDarkTheme()) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+            } else MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
         )
         HomeContent(
             dataLabel = stringResource(R.string.min_contribution_card_label),
             data = "25000",
-            iconId = R.drawable.ic_min_wallet
+            iconId = R.drawable.ic_min_wallet,
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.6f),
+            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            iconBackgroundColor = if (isSystemInDarkTheme()) {
+                MaterialTheme.colorScheme.tertiary.copy(alpha = 0.3f)
+            } else MaterialTheme.colorScheme.tertiary.copy(alpha = 0.3f)
         )
         HomeContent(
             dataLabel = stringResource(R.string.max_contribution_card_label),
             data = "500",
-            iconId = R.drawable.ic_max_wallet
+            iconId = R.drawable.ic_max_wallet,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            iconBackgroundColor = if (isSystemInDarkTheme()) {
+                MaterialTheme.colorScheme.outline
+            } else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
         )
     }
 }
@@ -160,7 +175,9 @@ private fun HomeContentPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun HomeDashboardPreview() {
-    ERIMSAppTheme {
+    ERIMSAppTheme(
+        darkTheme = true
+    ) {
         HomeDashboard(
             modifier = Modifier.padding(dimensionResource(R.dimen.extra_medium_padding))
         )
