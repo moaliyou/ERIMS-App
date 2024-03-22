@@ -1,5 +1,6 @@
 package com.example.erims_app.ui.screens.employee
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import com.example.erims_app.R
 import com.example.erims_app.data.local.entities.Employee
 import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomTopAppBar
+import com.example.erims_app.ui.components.SwipeToDeleteContainer
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -112,11 +114,18 @@ private fun EmployeeList(
         modifier = modifier
     ) {
         LazyColumn {
-            items(items = employeeList, key = { it.id }) { employee ->
-                EmployeeContent(
-                    employee = employee,
-                    modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
-                )
+            items(items = employeeList, key = { it.id }) { employeeContainer ->
+                SwipeToDeleteContainer(
+                    item = employeeContainer,
+                    onDelete = {
+                        Log.d("Employee", "${it.firstName} ${it.lastName}")
+                    }
+                ) { employee ->
+                    EmployeeContent(
+                        employee = employee,
+                        modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
+                    )
+                }
             }
         }
     }
