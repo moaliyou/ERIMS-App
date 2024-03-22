@@ -16,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
@@ -34,7 +35,7 @@ import kotlinx.coroutines.delay
 fun <T> SwipeToDeleteContainer(
     item: T,
     onDelete: (T) -> Unit,
-    animationDuration: Int = 500,
+    animationDuration: Int = 800,
     content: @Composable (T) -> Unit
 ) {
     var isRemoved by remember {
@@ -68,25 +69,7 @@ fun <T> SwipeToDeleteContainer(
         SwipeToDismissBox(
             state = state,
             backgroundContent = {
-                val color = if (state.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
-                    MaterialTheme.colorScheme.error
-                } else MaterialTheme.colorScheme.surface
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color)
-                        .padding(dimensionResource(R.dimen.extra_medium_padding)),
-                    contentAlignment = Alignment.CenterEnd
-                ) {
-                    if (state.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onError
-                        )
-                    }
-                }
+                DeleteBackground(state)
             },
             enableDismissFromEndToStart = true,
             enableDismissFromStartToEnd = false,
@@ -94,5 +77,28 @@ fun <T> SwipeToDeleteContainer(
                 content(item)
             }
         )
+    }
+}
+
+@Composable
+private fun DeleteBackground(state: SwipeToDismissBoxState) {
+    val color = if (state.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
+        MaterialTheme.colorScheme.error
+    } else MaterialTheme.colorScheme.background
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color)
+            .padding(dimensionResource(R.dimen.extra_medium_padding)),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        if (state.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onError
+            )
+        }
     }
 }
