@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.erims_app.R
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 import java.text.SimpleDateFormat
@@ -87,7 +86,7 @@ fun CustomDatePicker(
                 imageVector = Icons.Default.DateRange,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
             )
         }
         ShowDateDialog(
@@ -96,7 +95,10 @@ fun CustomDatePicker(
             onDismiss = { isDialogVisible.value = false },
             confirmButtonAction = {
                 TextButton(
-                    onClick = { isDialogVisible.value = false },
+                    onClick = {
+                        isDialogVisible.value = false
+                        onDateValueChange(dateValue)
+                    },
                     enabled = confirmEnabled
                 ) {
                     Text(stringResource(R.string.date_picker_dialog_OK))
@@ -104,7 +106,10 @@ fun CustomDatePicker(
             },
             dismissButtonAction = {
                 TextButton(
-                    onClick = { isDialogVisible.value = false }
+                    onClick = {
+                        isDialogVisible.value = false
+                        onDateValueChange(dateValue)
+                    }
                 ) {
                     Text(stringResource(R.string.date_picker_dialog_DISMISS))
                 }

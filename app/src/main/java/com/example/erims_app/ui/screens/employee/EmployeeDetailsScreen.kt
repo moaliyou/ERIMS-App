@@ -19,6 +19,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,17 +32,21 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
 import com.example.erims_app.data.local.entities.Employee
+import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomTopAppBar
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeDetailsScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: EmployeeDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val employeeDetailsUiState by viewModel.employeeDetailsUiState.collectAsState()
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -54,10 +60,11 @@ fun EmployeeDetailsScreen(
         }
     ) { innerPadding ->
         EmployeeDetailsBody(
-            employeeList = listOf(),
+            employeeList = employeeDetailsUiState.employeeList,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .padding(dimensionResource(R.dimen.small_padding))
         )
     }
 }
@@ -67,12 +74,12 @@ private fun EmployeeDetailsBody(
     modifier: Modifier = Modifier,
     employeeList: List<Employee>
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (employeeList.isEmpty()) {
+    if (employeeList.isEmpty()) {
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_empty),
                 contentDescription = stringResource(R.string.empty_list),
@@ -86,12 +93,12 @@ private fun EmployeeDetailsBody(
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyLarge
             )
-        } else {
-            EmployeeList(
-                employeeList = employeeList,
-                modifier = Modifier.padding(dimensionResource(R.dimen.small_padding))
-            )
         }
+    } else {
+        EmployeeList(
+            employeeList = employeeList,
+            modifier = modifier
+        )
     }
 }
 
@@ -100,12 +107,16 @@ private fun EmployeeList(
     modifier: Modifier = Modifier,
     employeeList: List<Employee>
 ) {
-    LazyColumn(modifier = modifier) {
-        items(items = employeeList, key = { it.id }) { employee ->
-            EmployeeContent(
-                employee = employee,
-                modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
-            )
+    Column(
+        modifier = modifier
+    ) {
+        LazyColumn {
+            items(items = employeeList, key = { it.id }) { employee ->
+                EmployeeContent(
+                    employee = employee,
+                    modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
+                )
+            }
         }
     }
 }
@@ -140,7 +151,7 @@ private fun EmployeeContent(
             EmployeeContentRow(
                 employeeId = employee.id,
                 employeeDateOfBirth = employee.dateOfBirth,
-                employeeSalary = employee.salary,
+                employeeSalary = employee.formattedSalary(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(dimensionResource(R.dimen.medium_padding)))
@@ -155,7 +166,7 @@ private fun EmployeeContent(
 private fun EmployeeContentRow(
     employeeId: Int,
     employeeDateOfBirth: String,
-    employeeSalary: Double,
+    employeeSalary: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -188,7 +199,7 @@ private fun EmployeeContentRow(
                 style = MaterialTheme.typography.titleSmall
             )
             Text(
-                text = "$$employeeSalary",
+                text = employeeSalary,
                 style = MaterialTheme.typography.titleMedium
             )
         }
