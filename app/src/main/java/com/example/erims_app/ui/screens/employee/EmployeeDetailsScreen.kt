@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -128,7 +129,11 @@ private fun EmployeeContent(
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(dimensionResource(R.dimen.medium_padding))
+        shape = RoundedCornerShape(dimensionResource(R.dimen.medium_padding)),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
     ) {
         Column(
             modifier = Modifier
@@ -155,7 +160,7 @@ private fun EmployeeContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(dimensionResource(R.dimen.medium_padding)))
-                    .background(MaterialTheme.colorScheme.outlineVariant)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
                     .padding(dimensionResource(R.dimen.extra_medium_padding)),
             )
         }
