@@ -1,8 +1,8 @@
-package com.example.erims_app.ui.screens.employee
+package com.example.erims_app.ui.screens.employee.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.erims_app.data.local.repository.EmployeesRepository
+import com.example.erims_app.domain.repository.EmployeesRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

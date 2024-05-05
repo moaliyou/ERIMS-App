@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.erims_app.ui.screens.employee
+package com.example.erims_app.ui.screens.employee.entry
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -29,12 +29,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
+import com.example.erims_app.domain.model.Employee
 import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomDatePicker
 import com.example.erims_app.ui.components.CustomFAB
 import com.example.erims_app.ui.components.CustomTopAppBar
 import com.example.erims_app.ui.theme.ERIMSAppTheme
-import kotlinx.coroutines.launch
 
 @Composable
 fun EmployeeEntryScreen(
@@ -43,8 +43,8 @@ fun EmployeeEntryScreen(
     onNavigationUp: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    val isEntryValid = viewModel.employeeUiState.isEntryValid
-    val coroutineScope = rememberCoroutineScope()
+    val employeeUiState = viewModel.employeeUiState.collectAsState().value
+    val isEntryValid = employeeUiState.isEntryValid
 
     Scaffold(
         topBar = {
@@ -58,10 +58,8 @@ fun EmployeeEntryScreen(
             if (isEntryValid) {
                 CustomFAB(
                     onClick = {
-                        coroutineScope.launch {
-                            viewModel.saveEmployee()
-                            navigateBack()
-                        }
+                        viewModel.saveEmployee()
+                        navigateBack()
                     },
                     iconId = R.drawable.ic_check,
                     iconTitleId = R.string.employee_entry_title
@@ -74,7 +72,7 @@ fun EmployeeEntryScreen(
                 .fillMaxWidth()
                 .padding(innerPadding)
                 .windowInsetsPadding(WindowInsets.navigationBars),
-            employeeUiState = viewModel.employeeUiState,
+            employeeUiState = employeeUiState,
             onEmployeeValueChange = viewModel::updateUiState,
             onBackClick = onNavigationUp
         )
@@ -85,7 +83,7 @@ fun EmployeeEntryScreen(
 fun EmployeeEntryBody(
     modifier: Modifier = Modifier,
     employeeUiState: EmployeeUiState,
-    onEmployeeValueChange: (EmployeeDetails) -> Unit,
+    onEmployeeValueChange: (Employee) -> Unit,
     onBackClick: () -> Unit
 ) {
     Column(
@@ -95,7 +93,7 @@ fun EmployeeEntryBody(
     ) {
         EmployeeForm(
             modifier = Modifier.fillMaxWidth(),
-            employeeDetails = employeeUiState.employeeDetails,
+            employee = employeeUiState.employee,
             onValueChange = onEmployeeValueChange
         )
     }
@@ -108,9 +106,9 @@ fun EmployeeEntryBody(
 @Composable
 private fun EmployeeForm(
     modifier: Modifier = Modifier,
-    employeeDetails: EmployeeDetails,
-    onValueChange: (EmployeeDetails) -> Unit = {},
-    enabled: Boolean = true
+    employee: Employee,
+    onValueChange: (Employee) -> Unit = {},
+    enabled: Boolean = true,
 ) {
     val datePickerState = rememberDatePickerState()
 
@@ -119,8 +117,8 @@ private fun EmployeeForm(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium_padding))
     ) {
         TextField(
-            value = employeeDetails.firstName,
-            onValueChange = { onValueChange(employeeDetails.copy(firstName = it)) },
+            value = employee.firstName,
+            onValueChange = { onValueChange(employee.copy(firstName = it)) },
             label = { Text(text = stringResource(R.string.first_name)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -135,8 +133,8 @@ private fun EmployeeForm(
             enabled = enabled
         )
         TextField(
-            value = employeeDetails.lastName,
-            onValueChange = { onValueChange(employeeDetails.copy(lastName = it)) },
+            value = employee.lastName,
+            onValueChange = { onValueChange(employee.copy(lastName = it)) },
             label = { Text(text = stringResource(R.string.last_name)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -156,15 +154,15 @@ private fun EmployeeForm(
             dateLabel = stringResource(R.string.date_of_birth),
             onDateValueChange = {
                 onValueChange(
-                    employeeDetails.copy(
+                    employee.copy(
                         dateOfBirth = if (it.contains("Date of birth")) "" else it
                     )
                 )
             }
         )
         TextField(
-            value = employeeDetails.jobTitle,
-            onValueChange = { onValueChange(employeeDetails.copy(jobTitle = it)) },
+            value = employee.jobTitle,
+            onValueChange = { onValueChange(employee.copy(jobTitle = it)) },
             label = { Text(text = stringResource(R.string.job_title)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -179,8 +177,8 @@ private fun EmployeeForm(
             enabled = enabled
         )
         TextField(
-            value = employeeDetails.salary,
-            onValueChange = { onValueChange(employeeDetails.copy(salary = it)) },
+            value = employee.salary,
+            onValueChange = { onValueChange(employee.copy(salary = it)) },
             label = { Text(text = stringResource(R.string.salary)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -203,7 +201,7 @@ fun EmployeeFormPreview() {
     ERIMSAppTheme {
         EmployeeForm(
             modifier = Modifier.padding(dimensionResource(R.dimen.extra_medium_padding)),
-            employeeDetails = EmployeeDetails()
+            employee = Employee()
         )
     }
 }

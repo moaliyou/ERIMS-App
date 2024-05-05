@@ -5,12 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.erims_app.data.local.dao.EmployeeDao
-import com.example.erims_app.data.local.entities.Employee
+import com.example.erims_app.data.local.entity.EmployeeEntity
 
 /**
  * Database class with a singleton Instance object.
  */
-@Database(entities = [Employee::class], version = 1, exportSchema = false)
+@Database(entities = [EmployeeEntity::class], version = 1, exportSchema = false)
 abstract class ERIMSDatabase : RoomDatabase() {
 
     abstract fun employeeDao(): EmployeeDao

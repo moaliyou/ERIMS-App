@@ -1,4 +1,4 @@
-package com.example.erims_app.ui.screens.employee
+package com.example.erims_app.ui.screens.employee.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,9 +34,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
-import com.example.erims_app.data.local.entities.Employee
+import com.example.erims_app.data.local.entity.EmployeeEntity
 import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomTopAppBar
+import com.example.erims_app.ui.screens.employee.entry.formattedSalary
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +73,7 @@ fun EmployeeDetailsScreen(
 @Composable
 private fun EmployeeDetailsBody(
     modifier: Modifier = Modifier,
-    employeeList: List<Employee>
+    employeeList: List<EmployeeEntity>
 ) {
     if (employeeList.isEmpty()) {
         Column(
@@ -105,7 +106,7 @@ private fun EmployeeDetailsBody(
 @Composable
 private fun EmployeeList(
     modifier: Modifier = Modifier,
-    employeeList: List<Employee>
+    employeeList: List<EmployeeEntity>
 ) {
     Column(
         modifier = modifier
@@ -124,7 +125,7 @@ private fun EmployeeList(
 @Composable
 private fun EmployeeContent(
     modifier: Modifier = Modifier,
-    employee: Employee
+    employee: EmployeeEntity
 ) {
     Card(
         modifier = modifier,
@@ -209,7 +210,7 @@ private fun EmployeeContentRow(
 @Preview(showBackground = true)
 @Composable
 private fun EmployeeContentPreview() {
-    val employee = Employee(
+    val employee = EmployeeEntity(
         id = 291,
         firstName = "Ahmed",
         lastName = "Osman Salah",
@@ -226,7 +227,7 @@ private fun EmployeeContentPreview() {
 @Composable
 private fun EmployeeListPreview() {
     val employeeList = listOf(
-        Employee(
+        EmployeeEntity(
             id = 291,
             firstName = "Ahmed",
             lastName = "Osman Salah",
@@ -234,7 +235,7 @@ private fun EmployeeListPreview() {
             jobTitle = "Software Engineering",
             salary = 500.0
         ),
-        Employee(
+        EmployeeEntity(
             id = 463,
             firstName = "Hajji",
             lastName = "Hassan Omar",
@@ -254,7 +255,7 @@ private fun EmployeeListPreview() {
 @Composable
 private fun EmployeeDetailsBodyPreview() {
     val employeeList = listOf(
-        Employee(
+        EmployeeEntity(
             id = 291,
             firstName = "Ahmed",
             lastName = "Osman Salah",
@@ -262,7 +263,7 @@ private fun EmployeeDetailsBodyPreview() {
             jobTitle = "Software Engineering",
             salary = 500.0
         ),
-        Employee(
+        EmployeeEntity(
             id = 463,
             firstName = "Hajji",
             lastName = "Hassan Omar",

@@ -7,8 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.erims_app.ui.AppViewModelProvider
-import com.example.erims_app.ui.screens.employee.EmployeeDetailsScreen
-import com.example.erims_app.ui.screens.employee.EmployeeEntryScreen
+import com.example.erims_app.ui.screens.employee.details.EmployeeDetailsScreen
+import com.example.erims_app.ui.screens.employee.entry.EmployeeEntryScreen
 import com.example.erims_app.ui.screens.home.HomeScreen
 import com.example.erims_app.ui.screens.main.MainViewModel
 

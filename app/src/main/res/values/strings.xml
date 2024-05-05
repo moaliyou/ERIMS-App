@@ -23,7 +23,7 @@
     <string name="retirement_screen_title">Retirement</string>
     <string name="payout_screen_title">Payout</string>
     <string name="id_label">Id</string>
-    <string name="no_employee_description">No employee data\nTap + button to add.</string>
+    <string name="no_employee_description">No employeeEntity data\nTap + button to add.</string>
     <string name="empty_list">empty list</string>
     <string name="employee_details_title">Employee Details</string>
 </resources>
