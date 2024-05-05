@@ -126,8 +126,10 @@ private fun EmployeeForm(
                 imeAction = ImeAction.Next
             ),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
-                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled
@@ -142,8 +144,10 @@ private fun EmployeeForm(
                 imeAction = ImeAction.Next
             ),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
-                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled
@@ -158,7 +162,9 @@ private fun EmployeeForm(
                         dateOfBirth = if (it.contains("Date of birth")) "" else it
                     )
                 )
-            }
+            },
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         TextField(
             value = employee.jobTitle,
@@ -170,8 +176,10 @@ private fun EmployeeForm(
                 imeAction = ImeAction.Next
             ),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
-                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled
@@ -186,8 +194,10 @@ private fun EmployeeForm(
                 imeAction = ImeAction.Done
             ),
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
-                focusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled

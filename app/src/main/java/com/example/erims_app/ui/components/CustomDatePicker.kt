@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,11 +41,13 @@ fun CustomDatePicker(
     datePickerState: DatePickerState,
     dateFormat: String,
     dateLabel: String,
-    onDateValueChange: (String) -> Unit
+    onDateValueChange: (String) -> Unit,
+    containerColor: Color = Color.Unspecified,
+    contentColor: Color = Color.Unspecified
 ) {
     Box(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .background(containerColor)
             .padding(
                 dimensionResource(R.dimen.extra_medium_padding),
                 dimensionResource(R.dimen.medium_padding)
@@ -80,7 +83,7 @@ fun CustomDatePicker(
                 modifier = Modifier.weight(1f),
                 text = dateValue,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = contentColor
             )
             Icon(
                 imageVector = Icons.Default.DateRange,
@@ -146,7 +149,7 @@ fun DatePickerPreview() {
             datePickerState = datePickerState,
             dateFormat = stringResource(R.string.date_format),
             dateLabel = "Choose Date",
-            onDateValueChange = {}
+            onDateValueChange = {},
         )
     }
 }

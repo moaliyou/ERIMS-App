@@ -1,5 +1,6 @@
-package com.example.erims_app.ui.screens.employee.details
+package com.example.erims_app.ui.screens.employee
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,10 +36,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
-import com.example.erims_app.data.local.entity.EmployeeEntity
+import com.example.erims_app.data.local.entities.Employee
 import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomTopAppBar
-import com.example.erims_app.ui.screens.employee.entry.formattedSalary
+import com.example.erims_app.ui.components.SwipeToDeleteContainer
 import com.example.erims_app.ui.theme.ERIMSAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +75,7 @@ fun EmployeeDetailsScreen(
 @Composable
 private fun EmployeeDetailsBody(
     modifier: Modifier = Modifier,
-    employeeList: List<EmployeeEntity>
+    employeeList: List<Employee>
 ) {
     if (employeeList.isEmpty()) {
         Column(
@@ -106,17 +108,24 @@ private fun EmployeeDetailsBody(
 @Composable
 private fun EmployeeList(
     modifier: Modifier = Modifier,
-    employeeList: List<EmployeeEntity>
+    employeeList: List<Employee>
 ) {
     Column(
         modifier = modifier
     ) {
         LazyColumn {
-            items(items = employeeList, key = { it.id }) { employee ->
-                EmployeeContent(
-                    employee = employee,
-                    modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
-                )
+            items(items = employeeList, key = { it.id }) { employeeContainer ->
+                SwipeToDeleteContainer(
+                    item = employeeContainer,
+                    onDelete = {
+                        Log.d("Employee", "${it.firstName} ${it.lastName}")
+                    }
+                ) { employee ->
+                    EmployeeContent(
+                        employee = employee,
+                        modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))
+                    )
+                }
             }
         }
     }
@@ -125,11 +134,15 @@ private fun EmployeeList(
 @Composable
 private fun EmployeeContent(
     modifier: Modifier = Modifier,
-    employee: EmployeeEntity
+    employee: Employee
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(dimensionResource(R.dimen.medium_padding))
+        shape = RoundedCornerShape(dimensionResource(R.dimen.medium_padding)),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
     ) {
         Column(
             modifier = Modifier
@@ -156,7 +169,7 @@ private fun EmployeeContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(dimensionResource(R.dimen.medium_padding)))
-                    .background(MaterialTheme.colorScheme.outlineVariant)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
                     .padding(dimensionResource(R.dimen.extra_medium_padding)),
             )
         }
@@ -210,7 +223,7 @@ private fun EmployeeContentRow(
 @Preview(showBackground = true)
 @Composable
 private fun EmployeeContentPreview() {
-    val employee = EmployeeEntity(
+    val employee = Employee(
         id = 291,
         firstName = "Ahmed",
         lastName = "Osman Salah",
@@ -227,7 +240,7 @@ private fun EmployeeContentPreview() {
 @Composable
 private fun EmployeeListPreview() {
     val employeeList = listOf(
-        EmployeeEntity(
+        Employee(
             id = 291,
             firstName = "Ahmed",
             lastName = "Osman Salah",
@@ -235,7 +248,7 @@ private fun EmployeeListPreview() {
             jobTitle = "Software Engineering",
             salary = 500.0
         ),
-        EmployeeEntity(
+        Employee(
             id = 463,
             firstName = "Hajji",
             lastName = "Hassan Omar",
@@ -255,7 +268,7 @@ private fun EmployeeListPreview() {
 @Composable
 private fun EmployeeDetailsBodyPreview() {
     val employeeList = listOf(
-        EmployeeEntity(
+        Employee(
             id = 291,
             firstName = "Ahmed",
             lastName = "Osman Salah",
@@ -263,7 +276,7 @@ private fun EmployeeDetailsBodyPreview() {
             jobTitle = "Software Engineering",
             salary = 500.0
         ),
-        EmployeeEntity(
+        Employee(
             id = 463,
             firstName = "Hajji",
             lastName = "Hassan Omar",

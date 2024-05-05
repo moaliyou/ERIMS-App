@@ -52,7 +52,7 @@ fun CustomNavigationBar(
             modifier = modifier
                 .windowInsetsPadding(WindowInsets.navigationBars)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.extra_medium_padding)))
-                .background(MaterialTheme.colorScheme.secondaryContainer)
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(dimensionResource(R.dimen.medium_padding))
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -68,12 +68,12 @@ fun CustomNavigationBar(
                         onClick = onAddClick,
                         modifier = Modifier
                             .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.tertiary)
+                            .background(MaterialTheme.colorScheme.onPrimaryContainer)
                     ) {
                         Icon(
                             Icons.Filled.Add,
                             contentDescription = "Add button",
-                            tint = MaterialTheme.colorScheme.onTertiary
+                            tint = MaterialTheme.colorScheme.primaryContainer
                         )
                     }
                 }
@@ -110,7 +110,7 @@ private fun CustomNavigationBarItem(
                     else navigationItem.unselectedIcon
                 ),
                 contentDescription = navigationItem.route,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }
