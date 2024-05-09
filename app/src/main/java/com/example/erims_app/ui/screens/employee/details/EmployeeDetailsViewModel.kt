@@ -2,16 +2,18 @@ package com.example.erims_app.ui.screens.employee.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.erims_app.domain.repository.EmployeesRepository
+import com.example.erims_app.domain.usecase.EmployeeUseCases
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class EmployeeDetailsViewModel (employeesRepository: EmployeesRepository) : ViewModel() {
+class EmployeeDetailsViewModel (
+    employeeUseCases: EmployeeUseCases
+): ViewModel() {
 
     val employeeDetailsUiState: StateFlow<EmployeeDetailsUiState> =
-        employeesRepository.getAllEmployeesStream().map { EmployeeDetailsUiState(it) }
+        employeeUseCases.getEmployees().map { EmployeeDetailsUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),

@@ -18,7 +18,7 @@ object AppViewModelProvider {
             MainViewModel()
         }
         initializer {
-            EmployeeDetailsViewModel(defaultApplication().container.employeesRepository)
+            EmployeeDetailsViewModel(defaultApplication().container.employeeUseCases)
         }
     }
 }

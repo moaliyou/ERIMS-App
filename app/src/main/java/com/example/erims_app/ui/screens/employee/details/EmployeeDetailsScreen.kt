@@ -1,4 +1,4 @@
-package com.example.erims_app.ui.screens.employee
+package com.example.erims_app.ui.screens.employee.details
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -36,7 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.erims_app.R
-import com.example.erims_app.data.local.entities.Employee
+import com.example.erims_app.data.mapper.formattedSalary
+import com.example.erims_app.domain.model.Employee
 import com.example.erims_app.ui.AppViewModelProvider
 import com.example.erims_app.ui.components.CustomTopAppBar
 import com.example.erims_app.ui.components.SwipeToDeleteContainer
@@ -229,7 +230,7 @@ private fun EmployeeContentPreview() {
         lastName = "Osman Salah",
         dateOfBirth = "12-02-1992",
         jobTitle = "Software Engineering",
-        salary = 500.0
+        salary = "500.0"
     )
     ERIMSAppTheme {
         EmployeeContent(employee = employee)
@@ -246,7 +247,7 @@ private fun EmployeeListPreview() {
             lastName = "Osman Salah",
             dateOfBirth = "12-02-1992".replace("-", " "),
             jobTitle = "Software Engineering",
-            salary = 500.0
+            salary = "500.0"
         ),
         Employee(
             id = 463,
@@ -254,7 +255,7 @@ private fun EmployeeListPreview() {
             lastName = "Hassan Omar",
             dateOfBirth = "28-04-1988".replace("-", " "),
             jobTitle = "Web Designer",
-            salary = 750.0
+            salary = "750.0"
         )
     )
     ERIMSAppTheme {
@@ -274,7 +275,7 @@ private fun EmployeeDetailsBodyPreview() {
             lastName = "Osman Salah",
             dateOfBirth = "12-02-1992".replace("-", " "),
             jobTitle = "Software Engineering",
-            salary = 500.0
+            salary = "500.0"
         ),
         Employee(
             id = 463,
@@ -282,7 +283,7 @@ private fun EmployeeDetailsBodyPreview() {
             lastName = "Hassan Omar",
             dateOfBirth = "28-04-1988".replace("-", " "),
             jobTitle = "Web Designer",
-            salary = 750.0
+            salary = "750.0"
         )
     )
     ERIMSAppTheme {
