@@ -1,6 +1,6 @@
 package com.example.erims_app.domain.usecase
 
-import com.example.erims_app.data.mapper.toEmployeeEntity
+import com.example.erims_app.data.mapper.toEntityEmployee
 import com.example.erims_app.domain.model.Employee
 import com.example.erims_app.domain.repository.EmployeesRepository
 
@@ -10,7 +10,7 @@ class AddEmployeeUseCase(
 ) {
     suspend operator fun invoke(employee: Employee) {
         if (employeeInputValidatorUseCase(employee)) {
-            employeesRepository.insertEmployee(employee.toEmployeeEntity())
+            employeesRepository.insertEmployee(employee.toEntityEmployee())
         }
     }
 }
