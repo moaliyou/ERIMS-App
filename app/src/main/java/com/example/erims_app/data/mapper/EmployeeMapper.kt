@@ -2,9 +2,9 @@ package com.example.erims_app.data.mapper
 
 import com.example.erims_app.data.local.entity.EmployeeEntity
 import com.example.erims_app.domain.model.Employee
-import com.example.erims_app.ui.screens.employee.entry.EmployeeUiState
+import java.text.NumberFormat
 
-fun EmployeeEntity.toEmployeeEntity(): Employee = Employee(
+fun EmployeeEntity.toEmployee(): Employee = Employee(
     id = id,
     firstName = firstName,
     lastName = lastName,
@@ -13,7 +13,7 @@ fun EmployeeEntity.toEmployeeEntity(): Employee = Employee(
     salary = salary.toString()
 )
 
-fun Employee.toEmployeeEntity(): EmployeeEntity = EmployeeEntity(
+fun Employee.toEntityEmployee(): EmployeeEntity = EmployeeEntity(
     id = id,
     firstName = firstName,
     lastName = lastName,
@@ -22,7 +22,6 @@ fun Employee.toEmployeeEntity(): EmployeeEntity = EmployeeEntity(
     salary = salary.toDoubleOrNull() ?: 0.0
 )
 
-fun EmployeeEntity.toEmployeeUiState(isEntryValid: Boolean = false): EmployeeUiState = EmployeeUiState(
-    employee = this.toEmployeeEntity(),
-    isEntryValid = isEntryValid
-)
+fun Employee.formattedSalary(): String = NumberFormat
+        .getCurrencyInstance()
+        .format(salary.toDoubleOrNull())
